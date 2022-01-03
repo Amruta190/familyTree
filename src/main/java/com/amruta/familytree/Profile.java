@@ -8,4 +8,6 @@ import lombok.Setter;
 public class Profile {
 	private Contact contact;
 	private Relation relation;
+	private String userName;
+	private String password;
 }

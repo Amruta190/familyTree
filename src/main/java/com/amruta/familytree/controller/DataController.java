@@ -8,9 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.amruta.familytree.ContactRepo;
 import com.amruta.familytree.MemberRepo;
+import com.amruta.familytree.MemberResponse;
 import com.amruta.familytree.Profile;
 import com.amruta.familytree.RelationRepo;
 import com.amruta.familytree.domain.Contact;
@@ -40,4 +43,12 @@ public class DataController {
 		return new ResponseEntity<>(profile,HttpStatus.OK);
 	} 
 	
+	@PostMapping("/profiles")
+	public ResponseEntity<MemberResponse> createdMember(@RequestBody Profile profile)
+	{
+		Member memberDomain=profileConverter.convertProfileToDomain(profile);
+		MemberResponse memberResponse=new MemberResponse();
+		memberResponse.setMemberId(memberDomain.getMemberId());
+		return new ResponseEntity<>(memberResponse,HttpStatus.CREATED);
+	}
 }
