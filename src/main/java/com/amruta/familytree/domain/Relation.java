@@ -18,5 +18,5 @@ public class Relation
     private Long fatherId;
     private Long motherId;
     private Long spouseId;
-    private Long gender;
+    private String gender;
 }
