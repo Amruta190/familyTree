@@ -1,36 +1,22 @@
 package com.amruta.familytree.controller;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import com.amruta.familytree.ContactRepo;
 import com.amruta.familytree.MemberRepo;
 import com.amruta.familytree.MemberResponse;
 import com.amruta.familytree.Profile;
-import com.amruta.familytree.RelationRepo;
-import com.amruta.familytree.domain.Contact;
 import com.amruta.familytree.domain.Member;
-import com.amruta.familytree.domain.Relation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.Optional;
+
+@RestController
 public class DataController {
 	@Autowired
 	private MemberRepo memberRepo;
 	
 	@Autowired
-	private ContactRepo contactRepo;
-	
-	@Autowired
-	private RelationRepo relationRepo;
-	
 	private ProfileConverter profileConverter;
 	
 	@GetMapping("/profiles/{member_id}")
