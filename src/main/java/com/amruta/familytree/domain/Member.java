@@ -1,13 +1,15 @@
 package com.amruta.familytree.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
-@Setter
+@Table(name = "member")
+@SecondaryTables(
+        { @SecondaryTable(name = "contact", pkJoinColumns = @PrimaryKeyJoinColumn(name = "member_id")),
+                @SecondaryTable(name = "relation", pkJoinColumns = @PrimaryKeyJoinColumn(name = "member_id")) })
+@Data
 public class Member
 {
     @Id
@@ -20,5 +22,9 @@ public class Member
     private String username;
     @Column(name = "password")
     private String password;
+    @Embedded
+    private Contact contact;
+    @Embedded
+    private Relation relation;
 
 }

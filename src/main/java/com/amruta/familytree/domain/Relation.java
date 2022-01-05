@@ -1,22 +1,20 @@
 package com.amruta.familytree.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
-@Entity
-@Getter@Setter
+@Embeddable
+@Data
 public class Relation
 {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long relationId;
-    @OneToOne
-    @JoinColumn(name = "member_id")
-    private Member memberId;
+    @Column(name = "father_id", table = "relation")
     private Long fatherId;
+    @Column(name = "mother_id", table = "relation")
     private Long motherId;
+    @Column(name = "spouse_id", table = "relation")
     private Long spouseId;
+    @Column(name = "gender", table = "relation")
     private String gender;
 }

@@ -1,34 +1,28 @@
 package com.amruta.familytree.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.util.Date;
 
-@Entity
-@Getter@Setter
+@Embeddable
+@Data
 public class Contact
 {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "contact_id")
-    private Long contactId;
-    @OneToOne
-    @JoinColumn(name = "member_id")
-    private Member memberId;
-    @Column(name = "first_name")
+    @Column(name = "first_name", table = "contact")
     private String firstName;
-    @Column(name = "last_name")
+    @Column(name = "last_name", table = "contact")
     private String lastName;
-    @Column(name = "sur_name")
+    @Column(name = "sur_name", table = "contact")
     private String surname;
-    @Column(name = "dob")
+    @Column(name = "dob", table = "contact")
     private Date dob;
-    @Column(name = "mail_id")
+    @Column(name = "mail_id", table = "contact")
     private String mailId;
-    @Column(name = "primary_phone_number")
+    @Column(name = "primary_phone_number", table = "contact")
     private String primaryPhoneNumber;
-    @Column(name = "secondary_phone_number")
-    private String secondaryPhoneNyumber;
+    @Column(name = "secondary_phone_number", table = "contact")
+    private String secondaryPhoneNumber;
+
 }
