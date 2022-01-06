@@ -18,12 +18,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-//import com.fasterxml.jackson.datatype.jsr353.JSR353Module;
+import com.fasterxml.jackson.datatype.jsr353.JSR353Module;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.json.JsonMergePatch;
 import javax.json.JsonValue;
@@ -44,7 +42,7 @@ public class PatchHelper
         objectMapper.setDefaultPropertyInclusion(Include.NON_NULL);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
         objectMapper.configure(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS, false);
-//        objectMapper.registerModule(new JSR353Module());
+        objectMapper.registerModule(new JSR353Module());
     }
 
     @Autowired

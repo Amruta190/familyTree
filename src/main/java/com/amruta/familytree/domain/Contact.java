@@ -20,6 +20,8 @@ public class Contact
     private Date dob;
     @Column(name = "mail_id", table = "contact")
     private String mailId;
+    @Column(name = "gender", table = "contact")
+    private String gender;
     @Column(name = "primary_phone_number", table = "contact")
     private String primaryPhoneNumber;
     @Column(name = "secondary_phone_number", table = "contact")

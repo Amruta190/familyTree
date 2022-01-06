@@ -23,20 +23,20 @@ public class DataController
     private PatchHelper patchHelper;
 
     @GetMapping("/profiles/{memberId}")
-    public ResponseEntity<Profile> getProfile(@PathVariable Long memberId)
+    public ResponseEntity<ProfileResponse> getProfile(@PathVariable Long memberId)
     {
         Optional<Member> member = memberRepo.findById(memberId);
-        Profile profile;
+        ProfileResponse profile;
         if (!member.isPresent())
         {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        profile = profileConverter.convertDomainToProfile(member.get());
+        profile = profileConverter.convertDomainToProfileResponse(member.get());
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
     @PostMapping("/profiles")
-    public ResponseEntity<MemberResponse> createProfile(@RequestBody Profile profile)
+    public ResponseEntity<MemberResponse> createProfile(@RequestBody ProfileRequest profile)
     {
         Member memberDomain = profileConverter.convertProfileToDomain(profile);
         MemberResponse memberResponse = new MemberResponse();
@@ -52,8 +52,8 @@ public class DataController
         {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Profile profileDomain = profileConverter.convertDomainToProfile(memberRepo.findById(memberId).get());
-        Profile profile = patchHelper.mergePatch(jsonMergePatch, profileDomain, Profile.class);
+        ProfileRequest profileDomain = profileConverter.convertDomainToProfileRequest(memberRepo.findById(memberId).get());
+        ProfileRequest profile = patchHelper.mergePatch(jsonMergePatch, profileDomain, ProfileRequest.class);
         profileConverter.convertProfileToDomain(profile);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

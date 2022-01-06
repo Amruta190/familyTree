@@ -15,6 +15,4 @@ public class Relation
     private Long motherId;
     @Column(name = "spouse_id", table = "relation")
     private Long spouseId;
-    @Column(name = "gender", table = "relation")
-    private String gender;
 }
