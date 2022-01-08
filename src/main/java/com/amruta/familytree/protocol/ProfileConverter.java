@@ -35,8 +35,8 @@ public class ProfileConverter
         {
             com.amruta.familytree.protocol.RelationResponse relation = new com.amruta.familytree.protocol.RelationResponse();
             relation.setFather(getFatherFromDomain(member));
-            relation.setMother(getFatherFromDomain(member));
-            relation.setSpouse(getFatherFromDomain(member));
+            relation.setMother(getMotherFromDomain(member));
+            relation.setSpouse(getSpouseFromDomain(member));
             relation.setChildren(getChildrenFromDomain(member));
             profile.setRelation(relation);
         }
