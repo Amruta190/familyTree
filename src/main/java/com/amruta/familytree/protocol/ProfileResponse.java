@@ -10,6 +10,8 @@ import lombok.Data;
 @Data
 public class ProfileResponse
 {
+    @JsonProperty("memberId")
+    private Long memberId;
     @JsonProperty("contact")
     private Contact contact;
     @JsonProperty("relation")

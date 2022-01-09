@@ -1,7 +1,9 @@
 package com.amruta.familytree.protocol;
 
-import com.amruta.familytree.domain.*;
 import com.amruta.familytree.domain.Contact;
+import com.amruta.familytree.domain.Member;
+import com.amruta.familytree.domain.MemberRepo;
+import com.amruta.familytree.domain.Relation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -19,6 +21,7 @@ public class ProfileConverter
     public ProfileResponse convertDomainToProfileResponse(Member member)
     {
         ProfileResponse profile = new ProfileResponse();
+        profile.setMemberId(member.getMemberId());
         if (member.getContact() != null)
         {
             Contact contactDomain = member.getContact();
@@ -79,10 +82,13 @@ public class ProfileConverter
         {
             father = new Person();
             long id = member.getRelation().getFatherId();
-            if (memberRepo.findById(id).isPresent())
+            Optional<Member> memberOptional = memberRepo.findById(id);
+            if (memberOptional.isPresent())
             {
                 father.setId(id);
-                father.setName(memberRepo.findById(id).get().getContact().getFirstName());
+                father.setName(
+                        memberOptional.get().getContact().getFirstName() + " " + memberOptional.get().getContact()
+                                .getLastName());
             }
         }
         return father;
@@ -95,10 +101,13 @@ public class ProfileConverter
         {
             mother = new Person();
             long id = member.getRelation().getMotherId();
-            if (memberRepo.findById(id).isPresent())
+            Optional<Member> memberOptional = memberRepo.findById(id);
+            if (memberOptional.isPresent())
             {
                 mother.setId(id);
-                mother.setName(memberRepo.findById(id).get().getContact().getFirstName());
+                mother.setName(
+                        memberOptional.get().getContact().getFirstName() + " " + memberOptional.get().getContact()
+                                .getLastName());
             }
         }
         return mother;
@@ -111,10 +120,13 @@ public class ProfileConverter
         {
             spouse = new Person();
             long id = member.getRelation().getSpouseId();
-            if (memberRepo.findById(id).isPresent())
+            Optional<Member> memberOptional = memberRepo.findById(id);
+            if (memberOptional.isPresent())
             {
                 spouse.setId(id);
-                spouse.setName(memberRepo.findById(id).get().getContact().getFirstName());
+                spouse.setName(
+                        memberOptional.get().getContact().getFirstName() + " " + memberOptional.get().getContact()
+                                .getLastName());
             }
         }
         return spouse;
@@ -127,7 +139,7 @@ public class ProfileConverter
         if ("F".equals(member.getContact().getGender()))
         {
             Optional<List<Member>> optionalMembers = memberRepo.findMembersByRelationMotherId(member.getMemberId());
-            if(optionalMembers.isPresent())
+            if (optionalMembers.isPresent())
             {
                 childrenDomain = optionalMembers.get();
             }
@@ -135,7 +147,7 @@ public class ProfileConverter
         else if ("M".equals(member.getContact().getGender()))
         {
             Optional<List<Member>> optionalMembers = memberRepo.findMembersByRelationFatherId(member.getMemberId());
-            if(optionalMembers.isPresent())
+            if (optionalMembers.isPresent())
             {
                 childrenDomain = optionalMembers.get();
             }
