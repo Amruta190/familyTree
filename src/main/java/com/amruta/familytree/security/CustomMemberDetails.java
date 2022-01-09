@@ -53,4 +53,13 @@ public class CustomMemberDetails implements UserDetails {
 		return member.getContact().getFirstName() + " " + member.getContact().getLastName();
 	}
 
+	public Member getMember()
+	{
+		return member;
+	}
+
+	public void setMember(Member member)
+	{
+		this.member = member;
+	}
 }

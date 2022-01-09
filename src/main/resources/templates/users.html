@@ -6,6 +6,36 @@
 	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
 	<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
 	<script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+	<style>
+		rect
+		{
+			fill: white;
+			stroke: silver;
+			width: 80px;
+			height: 40px;
+			stroke-width: 2;
+		}
+		path
+		{
+			fill: none;
+			stroke: silver;
+			stroke-width: 2;
+		}
+		text
+		{
+			dominant-baseline: middle;
+			text-anchor: middle;
+		}
+		.bigger
+		{
+			font-size: 20px;
+		}
+		.hide
+		{
+			visibility: hidden;
+		}
+	</style>
 </head>
 <body>
 <div class="container text-center">
@@ -54,5 +84,68 @@
 		</table>
 	</div>
 </div>
+</body>
+
+<body>
+<script th:inline="javascript">
+
+	var reqMember
+	var users = []
+	users.push([[${listUsers}]])
+	for (index in users[0])
+	{
+		if (users[0][index].contact.emailId === [[${#request.userPrincipal.principal.username}]])
+		{
+			reqMember = users[0][index];
+			console.log("in if condition")
+		}
+	}
+	var relation = reqMember.relation
+	var fatherName
+	var motherName
+	var spouseName
+	if (relation !== null || relation !== undefined || relation !== "")
+	{
+		fatherName = (relation.father !== undefined)?relation.father.name:""
+		motherName = (relation.mother !== undefined)?relation.mother.name:""
+		spouseName = (relation.spouse !== undefined)?relation.spouse.name:""
+	}
+
+	var svg=d3.select("body").append("svg").attr("width",900).attr("height",600).append("g").attr("transform","translate(50,50)");
+	var data=[{"child":fatherName,parent:"","spouse":motherName},
+		{"child":[[${#request.userPrincipal.principal.fullName}]],parent:fatherName,"spouse":spouseName}
+	];
+	var dataSructure = d3.stratify().id(function(d){return d.child;}).parentId(function(d){return d.parent;})(data);
+	var treeStructure = d3.tree().size([650,200]);
+	var information = treeStructure(dataSructure);
+
+	var connections1=svg.append("g").selectAll("path").data(information.links());
+	connections1.enter().append("path").attr("d",function (d) {
+		return "M" + (d.source.x-10) + "," + d.source.y + "h 80 v 50 H" + d.target.x + " V" + d.target.y;
+	});
+
+	var connections2=svg.append("g").selectAll("path").data(information.links());
+	connections2.enter().append("path").attr("d",function (d) {
+		return "M" + (d.source.x+50) + "," + d.source.y + "h 40";
+	});
+
+	var rectangles = svg.append("g").selectAll("rect").data(information.descendants());
+	rectangles.enter().append("rect").attr("x",function(d){return d.x-60;}).attr("y",function(d){return d.y-20;});
+
+	var spouseRectangles=svg.append("g").selectAll("rect").data(information.descendants());
+	spouseRectangles.enter().append("rect").attr("x",function(d){return d.x+80;}).attr("y",function(d){return d.y-20;}).classed("hide",function(d){
+		if(d.data.spouse==undefined)
+			return true;
+		else
+			return false;
+	});
+
+	var names=svg.append("g").selectAll("text").data(information.descendants());
+	names.enter().append("text").text(function(d){return d.data.child;}).attr("x",function(d){return d.data.child;}).attr("x",function(d){return d.x-10;}).attr("y",function(d){return d.y;}).classed("bigger","true");
+
+	var spouseNames=svg.append("g").selectAll("text").data(information.descendants());
+	spouseNames.enter().append("text").text(function(d){
+		return d.data.spouse;}).attr("x",function(d){return d.x+140;}).attr("y",function(d){return d.y;}).classed("bigger","true");
+</script>
 </body>
 </html>

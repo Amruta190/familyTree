@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -50,7 +51,7 @@ public class UIController
 	}
 	
 	@GetMapping("/users")
-	public String listUsers(Model model) {
+	public String listUsers(Model model, HttpServletRequest httpServletRequest) {
 		List<Member> members = memberRepo.findAll();
 		List<ProfileResponse> profileResponseList = new ArrayList<>();
 		for (Member member:

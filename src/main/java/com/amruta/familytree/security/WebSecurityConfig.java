@@ -16,55 +16,62 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	@Autowired
-	private DataSource dataSource;
-	
-	@Bean
-	public UserDetailsService userDetailsService() {
-		return new CustomMemberDetailsService();
-	}
-	
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-	
-	@Bean
-	public DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-		authProvider.setUserDetailsService(userDetailsService());
-		authProvider.setPasswordEncoder(passwordEncoder());
-		
-		return authProvider;
-	}
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter
+{
+    @Autowired
+    private DataSource dataSource;
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(authenticationProvider());
-	}
+    @Bean
+    public UserDetailsService userDetailsService()
+    {
+        return new CustomMemberDetailsService();
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-			.antMatchers("/users").authenticated()
-			.anyRequest().permitAll()
-			.and()
-			.formLogin()
-				.usernameParameter("email")
-				.defaultSuccessUrl("/users")
-				.permitAll()
-			.and()
-			.logout().logoutSuccessUrl("/").permitAll();
-	}
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder()
+    {
+        return new BCryptPasswordEncoder();
+    }
 
-	@Override
-	public void configure(WebSecurity web) throws Exception
-	{
-		web.ignoring()
-				.antMatchers("/resources/*", "/static/", "/css/", "/js/", "/images/", "/assets/", "/fonts/", "/dis/",
-						"/vendor1/*");
-	}
-	
-	
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider()
+    {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService());
+        authProvider.setPasswordEncoder(passwordEncoder());
+
+        return authProvider;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception
+    {
+        auth.authenticationProvider(authenticationProvider());
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception
+    {
+        http.authorizeRequests()
+                .antMatchers("/users").authenticated()
+                .anyRequest().permitAll()
+                .and()
+                .formLogin()
+                .usernameParameter("email")
+                .defaultSuccessUrl("/users")
+                .permitAll()
+                .and()
+                .rememberMe()
+                .and()
+                .logout().logoutSuccessUrl("/").permitAll();
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception
+    {
+        web.ignoring()
+                .antMatchers("/resources/*", "/static/", "/css/", "/js/", "/images/", "/assets/", "/fonts/", "/dis/",
+                        "/vendor1/*");
+    }
+
 }
