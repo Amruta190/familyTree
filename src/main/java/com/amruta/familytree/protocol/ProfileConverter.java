@@ -25,7 +25,7 @@ public class ProfileConverter
             com.amruta.familytree.protocol.Contact contact = new com.amruta.familytree.protocol.Contact();
             contact.setFirstName(contactDomain.getFirstName());
             contact.setLastName(contactDomain.getLastName());
-            contact.setEmailId(contactDomain.getMailId());
+            contact.setEmailId(contactDomain.getEmailId());
             contact.setPrimaryPhoneNumber(contactDomain.getPrimaryPhoneNumber());
             contact.setSecondaryPhoneNumber(contactDomain.getSecondaryPhoneNumber());
             contact.setGender(contactDomain.getGender());
@@ -52,7 +52,7 @@ public class ProfileConverter
             com.amruta.familytree.protocol.Contact contact = new com.amruta.familytree.protocol.Contact();
             contact.setFirstName(contactDomain.getFirstName());
             contact.setLastName(contactDomain.getLastName());
-            contact.setEmailId(contactDomain.getMailId());
+            contact.setEmailId(contactDomain.getEmailId());
             contact.setPrimaryPhoneNumber(contactDomain.getPrimaryPhoneNumber());
             contact.setSecondaryPhoneNumber(contactDomain.getSecondaryPhoneNumber());
             contact.setGender(contactDomain.getGender());
@@ -178,7 +178,7 @@ public class ProfileConverter
         {
             contactDomain.setFirstName(profile.getContact().getFirstName());
             contactDomain.setLastName(profile.getContact().getLastName());
-            contactDomain.setMailId(profile.getContact().getEmailId());
+            contactDomain.setEmailId(profile.getContact().getEmailId());
             contactDomain.setPrimaryPhoneNumber(profile.getContact().getPrimaryPhoneNumber());
             contactDomain.setSecondaryPhoneNumber(profile.getContact().getSecondaryPhoneNumber());
             contactDomain.setGender(profile.getContact().getGender());

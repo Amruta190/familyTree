@@ -11,5 +11,6 @@ public interface MemberRepo extends JpaRepository<Member, Long>
 {
     Optional<List<Member>> findMembersByRelationFatherId(Long id);
     Optional<List<Member>> findMembersByRelationMotherId(Long id);
+    Optional<Member> findMemberByContactEmailId(String email);
 }
 
