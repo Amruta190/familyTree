@@ -34,15 +34,12 @@ public class ProfileConverter
             contact.setGender(contactDomain.getGender());
             profile.setContact(contact);
         }
-        if (member.getRelation() != null)
-        {
-            com.amruta.familytree.protocol.RelationResponse relation = new com.amruta.familytree.protocol.RelationResponse();
-            relation.setFather(getFatherFromDomain(member));
-            relation.setMother(getMotherFromDomain(member));
-            relation.setSpouse(getSpouseFromDomain(member));
-            relation.setChildren(getChildrenFromDomain(member));
-            profile.setRelation(relation);
-        }
+        com.amruta.familytree.protocol.RelationResponse relation = new com.amruta.familytree.protocol.RelationResponse();
+        relation.setFather(getFatherFromDomain(member));
+        relation.setMother(getMotherFromDomain(member));
+        relation.setSpouse(getSpouseFromDomain(member));
+        relation.setChildren(getChildrenFromDomain(member));
+        profile.setRelation(relation);
         return profile;
     }
 
