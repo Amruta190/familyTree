@@ -10,7 +10,7 @@
 		{
 			fill: white;
 			stroke: silver;
-			width: 80px;
+			width: 200px;
 			height: 40px;
 			stroke-width: 2;
 		}
@@ -58,10 +58,10 @@
 		});
 
 		var rectangles = svg.append("g").selectAll("rect").data(information.descendants());
-		rectangles.enter().append("rect").attr("x",function(d){return d.x-60;}).attr("y",function(d){return d.y-20;});
+		rectangles.enter().append("rect").attr("x",function(d){return d.x-40;}).attr("y",function(d){return d.y-20;});
 		
 		var spouseRectangles=svg.append("g").selectAll("rect").data(information.descendants());
-		spouseRectangles.enter().append("rect").attr("x",function(d){return d.x+60;}).attr("y",function(d){return d.y-20;}).classed("hide",function(d){
+		spouseRectangles.enter().append("rect").attr("x",function(d){return d.x+80;}).attr("y",function(d){return d.y-20;}).classed("hide",function(d){
 			return d.data.spouse === undefined;
 		});
 

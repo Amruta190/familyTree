@@ -84,8 +84,7 @@ public class ProfileConverter
             {
                 father.setId(id);
                 father.setName(
-                        memberOptional.get().getContact().getFirstName() + " " + memberOptional.get().getContact()
-                                .getLastName());
+                        memberOptional.get().getContact().getFirstName());
             }
         }
         return father;
@@ -103,8 +102,7 @@ public class ProfileConverter
             {
                 mother.setId(id);
                 mother.setName(
-                        memberOptional.get().getContact().getFirstName() + " " + memberOptional.get().getContact()
-                                .getLastName());
+                        memberOptional.get().getContact().getFirstName());
             }
         }
         return mother;
@@ -122,8 +120,7 @@ public class ProfileConverter
             {
                 spouse.setId(id);
                 spouse.setName(
-                        memberOptional.get().getContact().getFirstName() + " " + memberOptional.get().getContact()
-                                .getLastName());
+                        memberOptional.get().getContact().getFirstName());
             }
         }
         return spouse;

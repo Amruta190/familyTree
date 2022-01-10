@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="ISO-8859-1">
-    <title>List Users</title>
+    <title>List Members</title>
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
@@ -11,7 +11,7 @@
         rect {
             fill: white;
             stroke: silver;
-            width: 80px;
+            width: 120px;
             height: 40px;
             stroke-width: 2;
         }
@@ -47,7 +47,7 @@
         </form>
     </div>
     <div>
-        <h1>List of Users</h1>
+        <h1>List of Family Members</h1>
     </div>
 
     <div>
@@ -109,7 +109,7 @@
 
     var svg = d3.select("body").append("svg").attr("width", 900).attr("height", 600).append("g").attr("transform", "translate(50,50)");
     var data = [{"child": fatherName, parent: "", "spouse": motherName},
-        {"child": [[${#request.userPrincipal.principal.fullName}]], parent: fatherName, "spouse": spouseName}
+        {"child": reqMember.contact.firstName, parent: fatherName, "spouse": spouseName}
     ];
     var dataSructure = d3.stratify().id(function (d) {
         return d.child;
@@ -142,7 +142,7 @@
     }).attr("y", function (d) {
         return d.y - 20;
     }).classed("hide", function (d) {
-        return d.data.spouse === undefined;
+        return (d.data.spouse === undefined) || (d.data.spouse === "");
     });
 
     var names = svg.append("g").selectAll("text").data(information.descendants());
