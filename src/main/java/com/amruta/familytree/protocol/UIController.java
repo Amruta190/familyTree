@@ -3,8 +3,6 @@ package com.amruta.familytree.protocol;
 import com.amruta.familytree.domain.Member;
 import com.amruta.familytree.domain.MemberRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class UIController
@@ -44,9 +41,30 @@ public class UIController
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
-		
-		memberRepo.save(user);
-		
+		// Save the member and get his details with member id.
+		Member newMember = memberRepo.save(user);
+//		Relation relation = newMember.getRelation();
+//		Member spouse;
+//		// Update spouse details of Spouse of the User.
+//		if (Objects.nonNull(relation) && relation.getSpouseId() != null)
+//		{
+//			Long spouseId = relation.getSpouseId();
+//			Optional<Member> spouseOptional = memberRepo.findById(spouseId);
+//
+//			if (spouseOptional.isPresent())
+//			{
+//				spouse = spouseOptional.get();
+//				Relation spouseRelation = spouse.getRelation();
+//				if (Objects.isNull(spouseRelation))
+//				{
+//					spouseRelation = new Relation();
+//				}
+//				spouseRelation.setSpouseId(newMember.getMemberId());
+//				spouse.setRelation(spouseRelation);
+//				memberRepo.save(spouse);
+//			}
+//		}
+
 		return "register_success";
 	}
 	

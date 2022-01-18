@@ -95,7 +95,9 @@
 
     var reqMember
     var users = []
+    let data = [];
     users.push([[${listUsers}]])
+    let index;
     for (index in users[0]) {
         if (users[0][index].contact.emailId === [[${#request.userPrincipal.principal.username}]]) {
             reqMember = users[0][index];
@@ -110,12 +112,39 @@
         fatherName = (relation.father !== undefined) ? relation.father.name : ""
         motherName = (relation.mother !== undefined) ? relation.mother.name : ""
         spouseName = (relation.spouse !== undefined) ? relation.spouse.name : ""
+        children = (relation.children != undefined) ? relation.children : []
+        if (fatherName !== "")
+        {
+            const fatherObject = {
+                child: fatherName,
+                parent:"",
+                wife:motherName
+            }
+            // Logged in user parents
+            data.push(fatherObject)
+        }
+    }
+
+    // Add logged in users data set.
+    const userObject = {
+        child: reqMember.contact.firstName,
+        parent:fatherName,
+        wife:spouseName
+    }
+    data.push(userObject);
+
+    // Create children data set
+    for (index in children)
+    {
+        const memberObject = {
+            child: children[index].name,
+            parent: reqMember.contact.firstName,
+            wife: ""
+        }
+        data.push(memberObject)
     }
 
     var svg = d3.select("body").append("svg").attr("width", 900).attr("height", 600).append("g").attr("transform", "translate(50,50)");
-    var data = [{"child": fatherName, parent: "", "spouse": motherName},
-        {"child": reqMember.contact.firstName, parent: fatherName, "spouse": spouseName}
-    ];
     var dataSructure = d3.stratify().id(function (d) {
         return d.child;
     }).parentId(function (d) {
@@ -147,7 +176,7 @@
     }).attr("y", function (d) {
         return d.y - 20;
     }).classed("hide", function (d) {
-        return (d.data.spouse === undefined) || (d.data.spouse === "");
+        return (d.data.wife === undefined) || (d.data.wife === "");
     });
 
     var names = svg.append("g").selectAll("text").data(information.descendants());
@@ -163,7 +192,7 @@
 
     var spouseNames = svg.append("g").selectAll("text").data(information.descendants());
     spouseNames.enter().append("text").text(function (d) {
-        return d.data.spouse;
+        return d.data.wife;
     }).attr("x", function (d) {
         return d.x + 140;
     }).attr("y", function (d) {
