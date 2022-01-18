@@ -64,4 +64,9 @@ public class UIController
 		
 		return "users";
 	}
+	
+	@PostMapping("/treeD3rect")
+	public String family() {
+		return "treeD3rect";
+	}
 }

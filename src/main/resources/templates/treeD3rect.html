@@ -10,7 +10,7 @@
 		{
 			fill: white;
 			stroke: silver;
-			width: 200px;
+			width: 85px;
 			height: 40px;
 			stroke-width: 2;
 		}
@@ -38,11 +38,19 @@
 <body>
 	<script>
 		var svg=d3.select("body").append("svg").attr("width",900).attr("height",600).append("g").attr("transform","translate(50,50)");
-		var data=[{"child":"MJR",parent:"","spouse":"Rajeswari"},
-					{"child":"Venkatesh",parent:"MJR","spouse":"Geeta"},
-					{"child":"Aravind",parent:"Venkatesh"},
-					{"child":"Amruta",parent:"Venkatesh"}
-				 ];
+		
+		
+		var data=[{"child":"Narayana",parent:"","spouse":"Parvati"},
+			{"child":"Suresh",parent:"MJR"},
+			{"child":"MJR",parent:"Narayana","spouse":"Rajeswari"},
+			{"child":"Shanmuk",parent:"Shekhar"},
+			{"child":"Krishna",parent:"Shekhar","spouse":"Radha"},
+			{"child":"Aravind",parent:"MVR"},
+			{"child":"Shekhar",parent:"Narayana","spouse":"Kamala"},
+			{"child":"MVR",parent:"MJR","spouse":"Geeta"},
+			{"child":"Amruta",parent:"MVR"},
+			{"child":"prudvi",parent:"Krishna"}
+		 ];
 		var dataSructure = d3.stratify().id(function(d){return d.child;}).parentId(function(d){return d.parent;})(data);
 		var treeStructure = d3.tree().size([650,300]);
 		var information = treeStructure(dataSructure);
@@ -58,10 +66,10 @@
 		});
 
 		var rectangles = svg.append("g").selectAll("rect").data(information.descendants());
-		rectangles.enter().append("rect").attr("x",function(d){return d.x-40;}).attr("y",function(d){return d.y-20;});
+		rectangles.enter().append("rect").attr("x",function(d){return d.x-60;}).attr("y",function(d){return d.y-20;});
 		
 		var spouseRectangles=svg.append("g").selectAll("rect").data(information.descendants());
-		spouseRectangles.enter().append("rect").attr("x",function(d){return d.x+80;}).attr("y",function(d){return d.y-20;}).classed("hide",function(d){
+		spouseRectangles.enter().append("rect").attr("x",function(d){return d.x+60;}).attr("y",function(d){return d.y-20;}).classed("hide",function(d){
 			return d.data.spouse === undefined;
 		});
 
