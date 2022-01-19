@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Sign Up - MyOrigin</title>
+	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+	<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container text-center">
+		<div>
+			<h1>User Registration - Sign Up</h1>
+		</div>
+		<form th:action="@{/process_register}" th:object="${user}" 
+			method="post" style="max-width: 600px; margin: 0 auto;">
+		<div class="m-3">
+			<div class="form-group row">
+				<label class="col-4 col-form-label">E-mail: </label>
+				<div class="col-8">
+					<input type="email" th:field="*{contact.emailId}" class="form-control" required />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label class="col-4 col-form-label">Password: </label>
+				<div class="col-8">
+					<input type="password" th:field="*{password}" class="form-control" 
+							required minlength="6" maxlength="10"/>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label class="col-4 col-form-label">First Name: </label>
+				<div class="col-8">
+					<input type="text" th:field="*{contact.firstName}" class="form-control"
+							required minlength="2" maxlength="20"/>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label class="col-4 col-form-label">Last Name: </label>
+				<div class="col-8">
+					<input type="text" th:field="*{contact.lastName}" class="form-control"
+							required minlength="2" maxlength="20" />
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-4 col-form-label">Gender: </label>
+				<div class="col-8">
+					<select class="form-control"  th:field="*{contact.gender}" required>
+						<option th:value="M" th:text="Male"></option>
+						<option th:value="F" th:text="Female"></option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-4 col-form-label">Phone Number: </label>
+				<div class="col-8">
+					<input type="text" th:field="*{contact.primaryPhoneNumber}" class="form-control" />
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-4 col-form-label">Secondary Phone Number: </label>
+				<div class="col-8">
+					<input type="text" th:field="*{contact.secondaryPhoneNumber}" class="form-control" />
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-4 col-form-label">Father: </label>
+				<div class="col-8">
+					<select class="form-control" th:field="*{relation.fatherId}">
+						<option value="">select father</option>
+						<option th:each="user : ${listUsers}" th:value="${user.memberId}" th:text="${user.contact.firstName + ' ' + user.contact.lastName}"></option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-4 col-form-label">Mother: </label>
+				<div class="col-8">
+					<select class="form-control" th:field="*{relation.motherId}">
+						<option value="">select mother</option>
+						<option th:each="user : ${listUsers}" th:value="${user.memberId}" th:text="${user.contact.firstName + ' ' + user.contact.lastName}"></option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-4 col-form-label">Spouse: </label>
+				<div class="col-8">
+					<select class="form-control" th:field="*{relation.spouseId}">
+						<option value="">select spouse</option>
+						<option th:each="user : ${listUsers}" th:value="${user.memberId}" th:text="${user.contact.firstName + ' ' + user.contact.lastName}"></option>
+					</select>
+				</div>
+			</div>
+			
+			<div>
+				<button type="submit" class="btn btn-primary">Sign Up</button> 
+			</div>
+		</div>
+		</form>
+	</div>
+</body>
+</html>
