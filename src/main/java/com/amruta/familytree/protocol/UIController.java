@@ -2,6 +2,7 @@ package com.amruta.familytree.protocol;
 
 import com.amruta.familytree.domain.Member;
 import com.amruta.familytree.domain.MemberRepo;
+import com.amruta.familytree.domain.Relation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Controller
 public class UIController
@@ -43,27 +46,27 @@ public class UIController
 		user.setPassword(encodedPassword);
 		// Save the member and get his details with member id.
 		Member newMember = memberRepo.save(user);
-//		Relation relation = newMember.getRelation();
-//		Member spouse;
-//		// Update spouse details of Spouse of the User.
-//		if (Objects.nonNull(relation) && relation.getSpouseId() != null)
-//		{
-//			Long spouseId = relation.getSpouseId();
-//			Optional<Member> spouseOptional = memberRepo.findById(spouseId);
-//
-//			if (spouseOptional.isPresent())
-//			{
-//				spouse = spouseOptional.get();
-//				Relation spouseRelation = spouse.getRelation();
-//				if (Objects.isNull(spouseRelation))
-//				{
-//					spouseRelation = new Relation();
-//				}
-//				spouseRelation.setSpouseId(newMember.getMemberId());
-//				spouse.setRelation(spouseRelation);
-//				memberRepo.save(spouse);
-//			}
-//		}
+		Relation relation = newMember.getRelation();
+		Member spouse;
+		// Update spouse details of Spouse of the User.
+		if (Objects.nonNull(relation) && relation.getSpouseId() != null)
+		{
+			Long spouseId = relation.getSpouseId();
+			Optional<Member> spouseOptional = memberRepo.findById(spouseId);
+
+			if (spouseOptional.isPresent())
+			{
+				spouse = spouseOptional.get();
+				Relation spouseRelation = spouse.getRelation();
+				if (Objects.isNull(spouseRelation))
+				{
+					spouseRelation = new Relation();
+				}
+				spouseRelation.setSpouseId(newMember.getMemberId());
+				spouse.setRelation(spouseRelation);
+				memberRepo.save(spouse);
+			}
+		}
 
 		return "register_success";
 	}

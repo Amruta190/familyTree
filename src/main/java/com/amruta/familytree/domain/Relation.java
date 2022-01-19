@@ -1,12 +1,14 @@
 package com.amruta.familytree.domain;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 @Data
+@DynamicUpdate
 public class Relation
 {
     @Column(name = "father_id", table = "relation")

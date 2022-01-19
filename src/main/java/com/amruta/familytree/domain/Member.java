@@ -1,6 +1,7 @@
 package com.amruta.familytree.domain;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
         { @SecondaryTable(name = "contact", pkJoinColumns = @PrimaryKeyJoinColumn(name = "member_id")),
                 @SecondaryTable(name = "relation", pkJoinColumns = @PrimaryKeyJoinColumn(name = "member_id")) })
 @Data
+@DynamicUpdate
 public class Member
 {
     @Id

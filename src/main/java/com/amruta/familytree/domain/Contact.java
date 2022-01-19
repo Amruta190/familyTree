@@ -1,6 +1,7 @@
 package com.amruta.familytree.domain;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -8,6 +9,7 @@ import java.util.Date;
 
 @Embeddable
 @Data
+@DynamicUpdate
 public class Contact
 {
     @Column(name = "first_name", table = "contact")
