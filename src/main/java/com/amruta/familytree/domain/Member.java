@@ -18,12 +18,12 @@ public class Member
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long memberId;
-    @Column(name = "is_admin")
-    private Boolean isAdminId;
     @Column(name = "username")
     private String username;
     @Column(name = "password")
     private String password;
+    @Column(name= "tree_id")
+    private Long treeId;
     @Embedded
     private Contact contact;
     @Embedded

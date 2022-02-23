@@ -99,6 +99,16 @@
 					</select>
 				</div>
 			</div>
+
+			<div class="form-group row">
+				<label class="col-4 col-form-label">Tree: </label>
+				<div class="col-8">
+					<select class="form-control" th:field="*{treeId}">
+						<option value="">select tree</option>
+						<option th:each="tree : ${listTrees}" th:value="${tree.treeId}" th:text="${tree.treeName}"></option>
+					</select>
+				</div>
+			</div>
 			
 			<div>
 				<button type="submit" class="btn btn-primary">Sign Up</button> 

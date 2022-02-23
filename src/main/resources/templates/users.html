@@ -42,6 +42,7 @@
         <form th:action="@{/logout}" method="post">
             <p>
                 Welcome <b>[[${#request.userPrincipal.principal.fullName}]]</b>
+<!--                <span>[[${#request.remoteUser}]]</span>-->
             </p>
             <input type="submit" value="Sign Out"/>
         </form>

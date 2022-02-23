@@ -1,9 +1,12 @@
 package com.amruta.familytree.protocol;
 
-import com.amruta.familytree.domain.Member;
-import com.amruta.familytree.domain.MemberRepo;
-import com.amruta.familytree.domain.Relation;
+import com.amruta.familytree.domain.*;
+import com.amruta.familytree.security.CustomMemberDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,18 +27,27 @@ public class UIController
 	private MemberRepo memberRepo;
 
 	@Autowired
+	private TreeRepo treeRepo;
+
+	@Autowired
 	private ProfileConverter profileConverter;
 	
 	@GetMapping("")
-	public String viewHomePage() {
-		return "index";
+	public String viewMainPage() {
+		return "main";
 	}
+
+	@GetMapping("/index")
+	public String viewHomePage() { return "index"; }
 	
 	@GetMapping("/register")
 	public String showRegistrationForm(Model model) {
 		model.addAttribute("user", new Member());
 		List<Member> existingUsers = memberRepo.findAll();
 		model.addAttribute("listUsers", existingUsers);
+		model.addAttribute("tree", new Tree());
+		List<Tree> existingTrees=treeRepo.findAll();
+		model.addAttribute("listTrees",existingTrees);
 		return "signup_form";
 	}
 	
@@ -75,17 +87,41 @@ public class UIController
 	public String listUsers(Model model, HttpServletRequest httpServletRequest) {
 		List<Member> members = memberRepo.findAll();
 		List<ProfileResponse> profileResponseList = new ArrayList<>();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		CustomMemberDetails myUserDetails = (CustomMemberDetails) authentication.getPrincipal();
+		Long userId = myUserDetails.getMember().getTreeId();
 		for (Member member:
 			 members)
 		{
-			profileResponseList.add(profileConverter.convertDomainToProfileResponse(member));
+			if(member.getTreeId()== userId )
+				profileResponseList.add(profileConverter.convertDomainToProfileResponse(member));
 		}
 
 		model.addAttribute("listUsers", profileResponseList);
 		
 		return "users";
 	}
-	
+
+    @GetMapping("/trees")
+    public String listTrees(Model model, HttpServletRequest httpServletRequest){
+        List<Tree> trees = treeRepo.findAll();
+        model.addAttribute("listTrees",trees);
+        return "trees";
+    }
+	@GetMapping("/newFamily")
+	public String createFamily(Model model)
+	{
+		model.addAttribute("tree", new Tree());
+		return "newFamily";
+	}
+
+	@PostMapping("/tree_register")
+	public String treeRegister (Tree tree)
+	{
+		Tree newTree=treeRepo.save(tree);
+		return "tree_creation_successful";
+	}
+
 	@PostMapping("/treeD3rect")
 	public String family() {
 		return "treeD3rect";

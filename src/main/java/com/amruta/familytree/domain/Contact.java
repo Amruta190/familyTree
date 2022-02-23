@@ -16,10 +16,6 @@ public class Contact
     private String firstName;
     @Column(name = "last_name", table = "contact")
     private String lastName;
-    @Column(name = "sur_name", table = "contact")
-    private String surname;
-    @Column(name = "dob", table = "contact")
-    private Date dob;
     @Column(name = "email_id", table = "contact")
     private String emailId;
     @Column(name = "gender", table = "contact")
